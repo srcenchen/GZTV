@@ -25,7 +25,7 @@ func main() {
 func WebUI() {
 	// gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
-	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.ReleaseMode)
 	server.Router(router) // 启动后端路由
 	public.InitIndex(router)
 	err := router.Run(":8020")
