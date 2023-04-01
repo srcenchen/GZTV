@@ -1,0 +1,1 @@
+import{o as t,c as s,b as e}from"./index-be962d38.js";const c={class:"flex flex-col items-center justify-center h-screen"},o=e("p",{class:"text-4xl"},"404",-1),_=e("p",{class:"text-2xl"},"页面不存在",-1),n=e("p",null,"高山仰止，景行行止",-1),a=[o,_,n],d={__name:"404",setup(l){return(r,i)=>(t(),s("div",c,a))}};export{d as default};
