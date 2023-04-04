@@ -17,15 +17,13 @@ func main() {
 	fmt.Println("流媒体服务器已经启动。")
 	go WebUI() // 启动WebUI
 	fmt.Println("WebUI 和 后端端口已经启动，运行在8020端口。")
-	fmt.Println("RTMP ，运行在8020端口。")
 	select {}
 }
 
 // WebUI /**
 func WebUI() {
-	// gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
-	// gin.SetMode(gin.ReleaseMode)
 	server.Router(router) // 启动后端路由
 	public.InitIndex(router)
 	err := router.Run(":8020")
