@@ -3,6 +3,7 @@ package data
 import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"sync"
 )
 
 // 数据表结构
@@ -33,11 +34,13 @@ type UserTable struct {
 	Password string `gorm:"type:varchar(255);not null"`
 }
 
+var once sync.Once
+var db *gorm.DB
+
 func GetDatabase() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("./resource/database/data.db"), &gorm.Config{})
-	if err != nil {
-		panic("failed to connect database")
-	}
+	once.Do(func() {
+		db, _ = gorm.Open(sqlite.Open("./resource/database/data.db"), &gorm.Config{})
+	})
 	return db
 }
 
