@@ -1,5 +1,5 @@
 // Copyright 2019, Chef.  All rights reserved.
-// https://github.com/srcenchen/gztv
+// https://github.com/q191201771/lal
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -12,8 +12,8 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/q191201771/naza/pkg/nazabytes"
 	"github.com/srcenchen/gztv/pkg/base"
+	"github.com/q191201771/naza/pkg/nazabytes"
 
 	"github.com/q191201771/naza/pkg/nazaerrors"
 

@@ -1,5 +1,5 @@
 // Copyright 2022, Chef.  All rights reserved.
-// https://github.com/srcenchen/gztv
+// https://github.com/q191201771/lal
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -9,9 +9,9 @@
 package h2645
 
 import (
-	"github.com/q191201771/naza/pkg/bele"
 	"github.com/srcenchen/gztv/pkg/avc"
 	"github.com/srcenchen/gztv/pkg/hevc"
+	"github.com/q191201771/naza/pkg/bele"
 )
 
 // TODO(chef): 逐渐将package avc, hevc迁移到package h2645，这个package处于开发阶段，如果内容不全，请使用package avc, hevc

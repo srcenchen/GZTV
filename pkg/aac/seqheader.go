@@ -1,5 +1,5 @@
 // Copyright 2021, Chef.  All rights reserved.
-// https://github.com/srcenchen/gztv
+// https://github.com/q191201771/lal
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -9,8 +9,8 @@
 package aac
 
 import (
-	"github.com/q191201771/naza/pkg/nazaerrors"
 	"github.com/srcenchen/gztv/pkg/base"
+	"github.com/q191201771/naza/pkg/nazaerrors"
 
 	"github.com/q191201771/naza/pkg/nazabits"
 )

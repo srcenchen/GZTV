@@ -1,5 +1,5 @@
 // Copyright 2022, Chef.  All rights reserved.
-// https://github.com/srcenchen/gztv
+// https://github.com/q191201771/lal
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -11,8 +11,8 @@ package logic
 import (
 	"net"
 
-	"github.com/q191201771/naza/pkg/nazalog"
 	"github.com/srcenchen/gztv/pkg/rtmp"
+	"github.com/q191201771/naza/pkg/nazalog"
 
 	"github.com/srcenchen/gztv/pkg/mpegts"
 
@@ -428,14 +428,7 @@ func (group *Group) broadcastByRtmpMsg(msg base.RtmpMsg) {
 			}
 		}
 		if msg.IsHevcKeySeqHeader() {
-			var sps []byte
-			var err error
-			if msg.IsEnhanced() {
-				_, sps, _, err = hevc.ParseVpsSpsPpsFromEnhancedSeqHeader(msg.Payload)
-			} else {
-				_, sps, _, err = hevc.ParseVpsSpsPpsFromSeqHeader(msg.Payload)
-			}
-
+			_, sps, _, err := hevc.ParseVpsSpsPpsFromSeqHeader(msg.Payload)
 			if err == nil {
 				var ctx hevc.Context
 				err = hevc.ParseSps(sps, &ctx)

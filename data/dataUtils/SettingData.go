@@ -14,4 +14,5 @@ func UpdateNotice(content string) {
 	var settingTable data.SettingTable
 	data.GetDatabase().Where("key = ?", "notice").First(&settingTable)
 	settingTable.Value = content
+	data.GetDatabase().Save(&settingTable)
 }

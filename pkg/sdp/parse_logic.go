@@ -1,5 +1,5 @@
 // Copyright 2020, Chef.  All rights reserved.
-// https://github.com/srcenchen/gztv
+// https://github.com/q191201771/lal
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -52,7 +52,7 @@ func (lc *LogicContext) IsPayloadTypeOrigin(t int) bool {
 }
 
 func (lc *LogicContext) IsAudioUnpackable() bool {
-	return (lc.audioPayloadTypeBase == base.AvPacketPtAac && lc.Asc != nil) || (lc.audioPayloadTypeBase == base.AvPacketPtG711A) || (lc.audioPayloadTypeBase == base.AvPacketPtG711U)
+	return lc.audioPayloadTypeBase == base.AvPacketPtAac && lc.Asc != nil
 }
 
 func (lc *LogicContext) IsVideoUnpackable() bool {
@@ -137,14 +137,6 @@ func ParseSdp2LogicContext(b []byte) (LogicContext, error) {
 					// RFC3551中表明G711A固定pt值为8
 					ret.audioPayloadTypeBase = base.AvPacketPtG711A
 					ret.audioPayloadTypeOrigin = 8
-					if ret.AudioClockRate == 0 {
-						ret.AudioClockRate = 8000
-					}
-				} else if md.M.PT == 0 {
-					// ffmpeg推流情况下不会填充rtpmap字段,m中pt值为8也可以表示是PCMU,采样率默认为8000Hz
-					// RFC3551中表明G711U固定pt值为0
-					ret.audioPayloadTypeBase = base.AvPacketPtG711U
-					ret.audioPayloadTypeOrigin = 0
 					if ret.AudioClockRate == 0 {
 						ret.AudioClockRate = 8000
 					}

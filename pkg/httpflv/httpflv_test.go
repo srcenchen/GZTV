@@ -1,5 +1,5 @@
 // Copyright 2020, Chef.  All rights reserved.
-// https://github.com/srcenchen/gztv
+// https://github.com/q191201771/lal
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -13,10 +13,10 @@ import (
 	"os"
 	"testing"
 
+	"github.com/srcenchen/gztv/pkg/httpflv"
 	"github.com/q191201771/naza/pkg/assert"
 	"github.com/q191201771/naza/pkg/mock"
 	"github.com/q191201771/naza/pkg/nazamd5"
-	"github.com/srcenchen/gztv/pkg/httpflv"
 
 	"github.com/srcenchen/gztv/pkg/innertest"
 )

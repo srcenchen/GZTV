@@ -1,5 +1,5 @@
 // Copyright 2019, Chef.  All rights reserved.
-// https://github.com/srcenchen/gztv
+// https://github.com/q191201771/lal
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -9,8 +9,10 @@
 package aac
 
 import (
-	"github.com/q191201771/naza/pkg/nazaerrors"
+	"fmt"
 	"github.com/q191201771/naza/pkg/nazalog"
+
+	"github.com/q191201771/naza/pkg/nazaerrors"
 
 	"github.com/srcenchen/gztv/pkg/base"
 
@@ -180,6 +182,14 @@ func (ascCtx *AscContext) PackToAdtsHeader(out []byte, frameLength int) error {
 }
 
 func (ascCtx *AscContext) GetSamplingFrequency() (int, error) {
+	// 临时日志，观察不常见的采样率
+	switch ascCtx.SamplingFrequencyIndex {
+	case AscSamplingFrequencyIndex48000, AscSamplingFrequencyIndex44100, AscSamplingFrequencyIndex22050, AscSamplingFrequencyIndex16000:
+		// noop
+	default:
+		nazalog.Warnf("unusual sampling frequency. ascCtx=%+v", ascCtx)
+	}
+
 	switch ascCtx.SamplingFrequencyIndex {
 	case AscSamplingFrequencyIndex96000:
 		return 96000, nil
@@ -193,8 +203,6 @@ func (ascCtx *AscContext) GetSamplingFrequency() (int, error) {
 		return 44100, nil
 	case AscSamplingFrequencyIndex32000:
 		return 32000, nil
-	case AscSamplingFrequencyIndex24000:
-		return 24000, nil
 	case AscSamplingFrequencyIndex22050:
 		return 22050, nil
 	case AscSamplingFrequencyIndex16000:
@@ -208,9 +216,7 @@ func (ascCtx *AscContext) GetSamplingFrequency() (int, error) {
 	case AscSamplingFrequencyIndex7350:
 		return 7350, nil
 	}
-
-	nazalog.Warnf("GetSamplingFrequency failed. err=%+v, ascCtx=%+v", base.ErrSamplingFrequencyIndex, ascCtx)
-	return -1, base.ErrSamplingFrequencyIndex
+	return -1, fmt.Errorf("%w. asCtx=%+v", base.ErrSamplingFrequencyIndex, ascCtx)
 }
 
 type AdtsHeaderContext struct {

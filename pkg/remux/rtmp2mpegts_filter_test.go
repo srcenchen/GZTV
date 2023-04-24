@@ -1,5 +1,5 @@
 // Copyright 2021, Chef.  All rights reserved.
-// https://github.com/srcenchen/gztv
+// https://github.com/q191201771/lal
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -11,8 +11,9 @@ package remux
 import (
 	"testing"
 
-	"github.com/q191201771/naza/pkg/assert"
 	"github.com/srcenchen/gztv/pkg/base"
+	"github.com/srcenchen/gztv/pkg/mpegts"
+	"github.com/q191201771/naza/pkg/assert"
 )
 
 var (
@@ -52,9 +53,6 @@ func TestRtmp2MpegtsFilter(t *testing.T) {
 	for i := range goldenRtmpMsg {
 		f.Push(goldenRtmpMsg[i])
 	}
-
-	// TODO(chef): [test] 修复这个单元测试 202303
-	//assert.Equal(t, mpegts.FixedFragmentHeader, fh)
-
+	assert.Equal(t, mpegts.FixedFragmentHeader, fh)
 	assert.Equal(t, goldenRtmpMsg, poped)
 }

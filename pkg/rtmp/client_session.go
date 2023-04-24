@@ -1,5 +1,5 @@
 // Copyright 2019, Chef.  All rights reserved.
-// https://github.com/srcenchen/gztv
+// https://github.com/q191201771/lal
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -633,7 +633,7 @@ func (s *ClientSession) doProtocolControlMessage(stream *Stream) error {
 }
 
 func (s *ClientSession) writeAcknowledgementIfNeeded(stream *Stream) error {
-	// https://github.com/srcenchen/gztv/pull/154
+	// https://github.com/q191201771/lal/pull/154
 	if s.option.PeerWinAckSize <= 0 {
 		return nil
 	}

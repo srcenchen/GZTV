@@ -1,5 +1,5 @@
 // Copyright 2022, Chef.  All rights reserved.
-// https://github.com/srcenchen/gztv
+// https://github.com/q191201771/lal
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -9,9 +9,9 @@
 package hls
 
 import (
+	"github.com/srcenchen/gztv/pkg/base"
 	"github.com/q191201771/naza/pkg/connection"
 	"github.com/q191201771/naza/pkg/nazamd5"
-	"github.com/srcenchen/gztv/pkg/base"
 	"net/http"
 	"strings"
 	"time"
