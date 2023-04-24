@@ -1,5 +1,5 @@
 // Copyright 2019, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -14,11 +14,11 @@ import (
 	"os"
 	"strings"
 
+	"github.com/q191201771/naza/pkg/nazajson"
+	"github.com/q191201771/naza/pkg/nazalog"
 	"github.com/srcenchen/gztv/pkg/base"
 	"github.com/srcenchen/gztv/pkg/hls"
 	"github.com/srcenchen/gztv/pkg/rtsp"
-	"github.com/q191201771/naza/pkg/nazajson"
-	"github.com/q191201771/naza/pkg/nazalog"
 )
 
 const (

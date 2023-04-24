@@ -1,5 +1,5 @@
 // Copyright 2021, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -114,7 +114,12 @@ func (r *Rtmp2RtspRemuxer) FeedRtmpMsg(msg base.RtmpMsg) {
 				r.sps, r.pps, err = avc.ParseSpsPpsFromSeqHeader(msg.Payload)
 				Log.Assert(nil, err)
 			} else if msg.IsHevcKeySeqHeader() {
-				r.vps, r.sps, r.pps, err = hevc.ParseVpsSpsPpsFromSeqHeader(msg.Payload)
+				if msg.IsEnhanced() {
+					r.vps, r.sps, r.pps, err = hevc.ParseVpsSpsPpsFromEnhancedSeqHeader(msg.Payload)
+				} else {
+					r.vps, r.sps, r.pps, err = hevc.ParseVpsSpsPpsFromSeqHeader(msg.Payload)
+				}
+
 				Log.Assert(nil, err)
 			}
 			r.doAnalyze()
@@ -160,7 +165,7 @@ func (r *Rtmp2RtspRemuxer) doAnalyze() {
 			ascCtx, err := aac.NewAscContext(r.asc)
 			if err != nil {
 				r.asc = nil
-				Log.Warn("invalid asc")
+				Log.Warnf("invalid asc. asc=%+v, err=%+v", ascCtx, err)
 				return
 			}
 
@@ -168,7 +173,7 @@ func (r *Rtmp2RtspRemuxer) doAnalyze() {
 			r.audioSampleRate, err = ascCtx.GetSamplingFrequency()
 			if err != nil {
 				r.asc = nil
-				Log.Warn("invalid asc")
+				Log.Warnf("invalid asc. asc=%+v, err=%+v", ascCtx, err)
 				return
 			}
 		}
@@ -232,7 +237,14 @@ func (r *Rtmp2RtspRemuxer) remux(msg base.RtmpMsg) {
 	case base.RtmpTypeIdVideo:
 		packer = r.getVideoPacker()
 		if packer != nil {
-			payload := msg.Payload[5:]
+			var payload []byte
+			if msg.VideoCodecId() == base.RtmpCodecIdHevc && msg.IsEnchanedHevcNalu() {
+				index := msg.GetEnchanedHevcNaluIndex()
+				payload = msg.Payload[index:]
+			} else {
+				payload = msg.Payload[5:]
+			}
+
 			if RtspRemuxerAddSpsPps2KeyFrameFlag {
 				if msg.IsAvcKeyNalu() && r.sps != nil && r.pps != nil {
 					payload = h2645.JoinNaluAvcc(r.sps, r.pps, msg.Payload[9:])

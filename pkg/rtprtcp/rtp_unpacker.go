@@ -1,5 +1,5 @@
 // Copyright 2020, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -9,8 +9,8 @@
 package rtprtcp
 
 import (
-	"github.com/srcenchen/gztv/pkg/base"
 	"github.com/q191201771/naza/pkg/nazalog"
+	"github.com/srcenchen/gztv/pkg/base"
 )
 
 // 传入RTP包，合成帧数据，并回调返回
@@ -76,6 +76,8 @@ func DefaultRtpUnpackerFactory(payloadType base.AvPacketPt, clockRate int, maxSi
 	switch payloadType {
 	case base.AvPacketPtAac:
 		protocol = NewRtpUnpackerAac(payloadType, clockRate, onAvPacket)
+	case base.AvPacketPtG711U:
+		fallthrough
 	case base.AvPacketPtG711A:
 		protocol = NewRtpUnpackerRaw(payloadType, clockRate, onAvPacket)
 	case base.AvPacketPtAvc:

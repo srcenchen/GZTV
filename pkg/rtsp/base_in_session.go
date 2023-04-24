@@ -1,5 +1,5 @@
 // Copyright 2020, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -18,10 +18,10 @@ import (
 	"github.com/q191201771/naza/pkg/nazabytes"
 	"github.com/q191201771/naza/pkg/nazaerrors"
 
+	"github.com/q191201771/naza/pkg/nazanet"
 	"github.com/srcenchen/gztv/pkg/base"
 	"github.com/srcenchen/gztv/pkg/rtprtcp"
 	"github.com/srcenchen/gztv/pkg/sdp"
-	"github.com/q191201771/naza/pkg/nazanet"
 )
 
 // 聚合PubSession和PullSession，也即流数据是输入类型的session

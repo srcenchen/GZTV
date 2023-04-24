@@ -1,5 +1,5 @@
 // Copyright 2019, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -19,6 +19,7 @@ import (
 	"time"
 
 	"github.com/q191201771/naza/pkg/defertaskthread"
+	"github.com/q191201771/naza/pkg/nazalog"
 	"github.com/srcenchen/gztv/pkg/base"
 	"github.com/srcenchen/gztv/pkg/hls"
 	"github.com/srcenchen/gztv/pkg/httpflv"
@@ -66,7 +67,7 @@ func NewServerManager(modOption ...ModOption) *ServerManager {
 		confFile := sm.option.ConfFilename
 		// 运行参数中没有配置文件，尝试从几个默认位置读取
 		if confFile == "" {
-			//			nazalog.Warnf("config file did not specify in the command line, try to load it in the usual path.")
+			nazalog.Warnf("config file did not specify in the command line, try to load it in the usual path.")
 			confFile = firstExistDefaultConfFilename()
 
 			// 所有默认位置都找不到配置文件，退出程序
@@ -805,10 +806,10 @@ func firstExistDefaultConfFilename() string {
 	for _, dcf := range DefaultConfFilenameList {
 		fi, err := os.Stat(dcf)
 		if err == nil && fi.Size() > 0 && !fi.IsDir() {
-			//			nazalog.Warnf("%s exist. using it as config file.", dcf)
+			nazalog.Warnf("%s exist. using it as config file.", dcf)
 			return dcf
 		} else {
-			//			nazalog.Warnf("%s not exist.", dcf)
+			nazalog.Warnf("%s not exist.", dcf)
 		}
 	}
 	return ""

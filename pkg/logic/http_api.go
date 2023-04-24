@@ -1,5 +1,5 @@
 // Copyright 2020, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -253,6 +253,8 @@ func (h *HttpApiServer) notFoundHandler(w http.ResponseWriter, req *http.Request
 func feedback(v interface{}, w http.ResponseWriter) {
 	resp, _ := json.Marshal(v)
 	w.Header().Add("Server", base.LalHttpApiServer)
+	w.Header().Set("Access-Control-Allow-Origin", "*")             // 跨域
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type") // 跨域补充
 	w.Header().Set("Content-Type", "application/json")
 	_, _ = w.Write(resp)
 }

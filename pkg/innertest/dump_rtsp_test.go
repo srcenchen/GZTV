@@ -1,5 +1,5 @@
 // Copyright 2022, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -9,12 +9,12 @@
 package innertest
 
 import (
+	"github.com/q191201771/naza/pkg/nazalog"
 	"github.com/srcenchen/gztv/pkg/base"
 	"github.com/srcenchen/gztv/pkg/httpflv"
 	"github.com/srcenchen/gztv/pkg/remux"
 	"github.com/srcenchen/gztv/pkg/rtprtcp"
 	"github.com/srcenchen/gztv/pkg/sdp"
-	"github.com/q191201771/naza/pkg/nazalog"
 	"io"
 	"testing"
 )

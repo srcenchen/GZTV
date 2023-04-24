@@ -10,8 +10,10 @@ func GetLives() []data.LiveTable {
 }
 
 // AddLive 添加直播
-func AddLive(title string, appName string, streamName string, headImage string, record string) {
-	data.GetDatabase().Create(&data.LiveTable{Title: title, AppName: appName, StreamName: streamName, HeadImage: headImage, Record: record})
+func AddLive(title string, appName string, streamName string, headImage string, record string, submit string, description string) {
+	data.GetDatabase().Create(
+		&data.LiveTable{Title: title, Description: description, AppName: appName, StreamName: streamName,
+			HeadImage: headImage, Record: record, SubmitDate: submit, LiveState: "false"})
 }
 
 // GetLiveByID 根据id获取直播

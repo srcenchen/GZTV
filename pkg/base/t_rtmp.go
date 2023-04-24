@@ -1,5 +1,5 @@
 // Copyright 2020, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -11,7 +11,6 @@ package base
 import (
 	"encoding/hex"
 	"fmt"
-
 	"github.com/q191201771/naza/pkg/bele"
 	"github.com/q191201771/naza/pkg/nazabytes"
 )
@@ -72,6 +71,21 @@ const (
 	RtmpHevcPacketTypeSeqHeader       = RtmpAvcPacketTypeSeqHeader
 	RtmpHevcPacketTypeNalu            = RtmpAvcPacketTypeNalu
 
+	// enhanced-rtmp packetType https://github.com/veovera/enhanced-rtmp
+	RtmpExPacketTypeSequenceStart uint8 = 0
+	RtmpExPacketTypeCodedFrames   uint8 = 1 // CompositionTime不为0时有这个类型
+	RtmpExPacketTypeSequenceEnd   uint8 = 2
+	RtmpExPacketTypeCodedFramesX  uint8 = 3
+
+	// RtmpExFrameTypeKeyFrame RtmpExFrameTypeXXX...
+	//
+	// The following FrameType values are defined:
+	// 0 = reserved
+	// 1 = key frame (a seekable frame)
+	// 2 = inter frame (a non-seekable frame)
+	// ...
+	RtmpExFrameTypeKeyFrame uint8 = 1
+
 	RtmpAvcKeyFrame    = RtmpFrameTypeKey<<4 | RtmpCodecIdAvc
 	RtmpHevcKeyFrame   = RtmpFrameTypeKey<<4 | RtmpCodecIdHevc
 	RtmpAvcInterFrame  = RtmpFrameTypeInter<<4 | RtmpCodecIdAvc
@@ -114,7 +128,30 @@ func (msg RtmpMsg) IsAvcKeySeqHeader() bool {
 }
 
 func (msg RtmpMsg) IsHevcKeySeqHeader() bool {
-	return msg.Header.MsgTypeId == RtmpTypeIdVideo && msg.Payload[0] == RtmpHevcKeyFrame && msg.Payload[1] == RtmpHevcPacketTypeSeqHeader
+	if msg.Header.MsgTypeId != RtmpTypeIdVideo {
+		return false
+	}
+
+	isExtHeader := msg.Payload[0] & 0x80
+	if isExtHeader != 0 {
+		packetType := msg.Payload[0] & 0x0f
+		if msg.Payload[1] == 'h' && msg.Payload[2] == 'v' && msg.Payload[3] == 'c' && msg.Payload[4] == '1' && packetType == RtmpExPacketTypeSequenceStart {
+			return true
+		}
+	} else {
+		return msg.Payload[0] == RtmpHevcKeyFrame && msg.Payload[1] == RtmpHevcPacketTypeSeqHeader
+	}
+
+	return false
+}
+
+func (msg RtmpMsg) IsEnhanced() bool {
+	isExtHeader := msg.Payload[0] & 0x80
+	if isExtHeader != 0 {
+		return true
+	}
+
+	return false
 }
 
 func (msg RtmpMsg) IsVideoKeySeqHeader() bool {
@@ -126,7 +163,46 @@ func (msg RtmpMsg) IsAvcKeyNalu() bool {
 }
 
 func (msg RtmpMsg) IsHevcKeyNalu() bool {
-	return msg.Header.MsgTypeId == RtmpTypeIdVideo && msg.Payload[0] == RtmpHevcKeyFrame && msg.Payload[1] == RtmpHevcPacketTypeNalu
+	if msg.Header.MsgTypeId != RtmpTypeIdVideo {
+		return false
+	}
+
+	isExtHeader := msg.Payload[0] & 0x80
+	if isExtHeader != 0 {
+		frameType := msg.Payload[0] >> 4 & 0x07
+		packetType := msg.Payload[0] & 0x0F
+		return frameType == RtmpExFrameTypeKeyFrame && packetType != RtmpExPacketTypeSequenceStart
+	}
+
+	return msg.Payload[0] == RtmpHevcKeyFrame && msg.Payload[1] == RtmpHevcPacketTypeNalu
+}
+
+func (msg RtmpMsg) IsEnchanedHevcNalu() bool {
+	isExtHeader := msg.Payload[0] & 0x80
+	if isExtHeader != 0 {
+		packetType := msg.Payload[0] & 0x0f
+		if packetType == RtmpExPacketTypeCodedFrames || packetType == RtmpExPacketTypeCodedFramesX {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (msg RtmpMsg) GetEnchanedHevcNaluIndex() int {
+	isExtHeader := msg.Payload[0] & 0x80
+	if isExtHeader != 0 {
+		packetType := msg.Payload[0] & 0x0f
+		switch packetType {
+		case RtmpExPacketTypeCodedFrames:
+			// NALU前面有3个字节CompositionTime
+			return 5 + 3
+		case RtmpExPacketTypeCodedFramesX:
+			return 5
+		}
+	}
+
+	return 0
 }
 
 func (msg RtmpMsg) IsVideoKeyNalu() bool {
@@ -138,7 +214,16 @@ func (msg RtmpMsg) IsAacSeqHeader() bool {
 }
 
 func (msg RtmpMsg) VideoCodecId() uint8 {
-	return msg.Payload[0] & 0xF
+	isExtHeader := msg.Payload[0] & 0x80
+	if isExtHeader == 0 {
+		return msg.Payload[0] & 0xF
+	}
+
+	if msg.Payload[1] == 'h' && msg.Payload[2] == 'v' && msg.Payload[3] == 'c' && msg.Payload[4] == '1' {
+		return RtmpCodecIdHevc
+	}
+
+	return RtmpCodecIdAvc
 }
 
 func (msg RtmpMsg) AudioCodecId() uint8 {
@@ -163,7 +248,41 @@ func (msg RtmpMsg) Pts() uint32 {
 	return msg.Header.TimestampAbs + bele.BeUint24(msg.Payload[2:])
 }
 
+func (msg RtmpMsg) Cts() uint32 {
+	if msg.Header.MsgTypeId == RtmpTypeIdAudio {
+		return bele.BeUint24(msg.Payload[2:])
+	}
+
+	isExtHeader := msg.Payload[0] & 0x80
+	if isExtHeader != 0 {
+		packetType := msg.Payload[0] & 0x0F
+		switch packetType {
+		case RtmpExPacketTypeCodedFrames:
+			return bele.BeUint24(msg.Payload[5:])
+		case RtmpExPacketTypeCodedFramesX:
+			return 0
+		default:
+			Log.Warnf("RtmpMsg.Cts: packetType invalid, packetType=%d", packetType)
+			return 0
+		}
+	}
+
+	return bele.BeUint24(msg.Payload[2:])
+}
+
 func (msg RtmpMsg) DebugString() string {
+	isExtHeader := msg.Payload[0] & 0x80
+	if msg.Header.MsgTypeId == RtmpTypeIdVideo && isExtHeader != 0 {
+		frameType := msg.Payload[0] >> 4 & 0x07
+		packetType := msg.Payload[0] & 0x0F // e.g. RtmpExPacketTypeSequenceStart
+		if isExtHeader != 0 {
+			return fmt.Sprintf("type=%d,len=%d,dts=%d, ext(%d, %d, %d), payload=%s",
+				msg.Header.MsgTypeId, msg.Header.MsgLen, msg.Header.TimestampAbs,
+				isExtHeader, frameType, packetType,
+				hex.Dump(nazabytes.Prefix(msg.Payload, 64)))
+		}
+	}
+
 	return fmt.Sprintf("type=%d,len=%d,dts=%d, payload=%s",
 		msg.Header.MsgTypeId, msg.Header.MsgLen, msg.Header.TimestampAbs, hex.Dump(nazabytes.Prefix(msg.Payload, 64)))
 }

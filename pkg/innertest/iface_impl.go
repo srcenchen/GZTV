@@ -1,5 +1,5 @@
 // Copyright 2021, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -9,6 +9,7 @@
 package innertest
 
 import (
+	"github.com/q191201771/naza/pkg/connection"
 	"github.com/srcenchen/gztv/pkg/base"
 	"github.com/srcenchen/gztv/pkg/hls"
 	"github.com/srcenchen/gztv/pkg/httpflv"
@@ -17,7 +18,6 @@ import (
 	"github.com/srcenchen/gztv/pkg/remux"
 	"github.com/srcenchen/gztv/pkg/rtmp"
 	"github.com/srcenchen/gztv/pkg/rtsp"
-	"github.com/q191201771/naza/pkg/connection"
 )
 
 // TODO(chef): 检查所有 interface是否以I开头 202207

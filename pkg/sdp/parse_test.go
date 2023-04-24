@@ -1,5 +1,5 @@
 // Copyright 2020, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -701,5 +701,5 @@ a=control:streamid=1
 	ctx, err := ParseSdp2LogicContext([]byte(golden))
 	assert.Equal(t, nil, err)
 	assert.Equal(t, true, ctx.IsAudioPayloadTypeOrigin(8))
-	assert.Equal(t, false, ctx.IsAudioUnpackable())
+	assert.Equal(t, true, ctx.IsAudioUnpackable())
 }

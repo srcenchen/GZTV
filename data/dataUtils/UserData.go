@@ -3,23 +3,16 @@ package dataUtils
 import "github.com/srcenchen/gztv/data"
 
 // VerifyUser 验证密码
-func VerifyUser(password string) bool {
+func VerifyUser(username string, password string) bool {
 	var userTable data.UserTable
-	result := data.GetDatabase().Where("password = ?", password).First(&userTable)
+	result := data.GetDatabase().Where("username = ?", username).Where("password = ?", password).First(&userTable)
 	return result.RowsAffected != 0
 }
 
-// GetNotice 获取公告
-func GetNotice() data.UserTable {
+// ChangePassword 修改密码
+func ChangePassword(username string, password string) {
 	var userTable data.UserTable
-	data.GetDatabase().Where("id = ?", "3").First(&userTable)
-	return userTable
-}
-
-// UpdateNotice 更新公告
-func UpdateNotice(content string) {
-	var userTable data.UserTable
-	data.GetDatabase().Where("id = ?", "3").First(&userTable)
-	userTable.Password = content
+	data.GetDatabase().Where("username = ?", username).First(&userTable)
+	userTable.Password = password
 	data.GetDatabase().Save(&userTable)
 }

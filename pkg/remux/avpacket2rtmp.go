@@ -1,5 +1,5 @@
 // Copyright 2021, Chef.  All rights reserved.
-// https://github.com/q191201771/lal
+// https://github.com/srcenchen/gztv
 //
 // Use of this source code is governed by a MIT-style license
 // that can be found in the License file.
@@ -9,6 +9,7 @@
 package remux
 
 import (
+	"github.com/q191201771/naza/pkg/bele"
 	"github.com/srcenchen/gztv/pkg/aac"
 	"github.com/srcenchen/gztv/pkg/avc"
 	"github.com/srcenchen/gztv/pkg/base"
@@ -16,7 +17,6 @@ import (
 	"github.com/srcenchen/gztv/pkg/rtmp"
 	"github.com/srcenchen/gztv/pkg/rtprtcp"
 	"github.com/srcenchen/gztv/pkg/sdp"
-	"github.com/q191201771/naza/pkg/bele"
 )
 
 // AvPacket2RtmpRemuxer AvPacket转换为RTMP
@@ -305,6 +305,22 @@ func (r *AvPacket2RtmpRemuxer) FeedAvPacket(pkt base.AvPacket) {
 			copy(payload[2:], pkt.Payload[7:])
 			r.emitRtmpAvMsg(true, payload, pkt.Timestamp)
 		}
+
+	case base.AvPacketPtG711A:
+		length := len(pkt.Payload) + 1
+		payload := make([]byte, length)
+		// ffmpeg是固定值
+		payload[0] = 0x72
+		copy(payload[1:], pkt.Payload)
+		r.emitRtmpAvMsg(true, payload, pkt.Timestamp)
+
+	case base.AvPacketPtG711U:
+		length := len(pkt.Payload) + 1
+		payload := make([]byte, length)
+		// ffmpeg是固定值
+		payload[0] = 0x82
+		copy(payload[1:], pkt.Payload)
+		r.emitRtmpAvMsg(true, payload, pkt.Timestamp)
 
 	default:
 		Log.Warnf("unsupported packet. type=%d", pkt.PayloadType)

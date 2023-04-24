@@ -27,9 +27,11 @@ func Router(router *gin.Engine) {
 	api.POST("/uploadImage", handles.UploadImage) // 上传图片
 	api.POST("/uploadVideo", handles.UploadVideo) // 上传视频
 
-	api.POST("/verifyUser", handles.VerifyUser)    // 验证用户
-	api.GET("/getNotice", handles.GetNotice)       // 获取公告
-	api.GET("/updateNotice", handles.UpdateNotice) // 更新公告
+	// 用户相关 api
+	api.POST("/verifyUser", handles.VerifyUser)        // 验证用户
+	api.GET("/changePassword", handles.ChangePassword) // 修改密码
+	api.GET("/getNotice", handles.GetNotice)           // 获取公告
+	api.GET("/updateNotice", handles.UpdateNotice)     // 更新公告
 
 }
 
