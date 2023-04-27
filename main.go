@@ -8,6 +8,7 @@ import (
 	"github.com/srcenchen/gztv/public"
 	"github.com/srcenchen/gztv/server"
 	"os"
+	"io/ioutil"
 )
 
 func main() {
@@ -22,7 +23,9 @@ func main() {
 
 // WebUI /**
 func WebUI() {
-	gin.SetMode(gin.ReleaseMode)
+	// 禁止Gin的控制台输出
+        gin.SetMode(gin.ReleaseMode)
+        gin.DefaultWriter = ioutil.Discard
 	router := gin.Default()
 	server.Router(router) // 启动后端路由
 	public.InitIndex(router)
