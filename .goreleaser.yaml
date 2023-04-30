@@ -40,7 +40,7 @@ archives:
 
 dockers:
   - image_templates:
-      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:{{ .Tag }}amd64"
+      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:{{ .Tag }}-amd64"
       - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:least-amd64"
     dockerfile: Dockerfile
     build_flag_templates:
@@ -49,8 +49,8 @@ dockers:
       - WebUI
       - conf
   - image_templates:
-      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:{{ .Tag }}arm64v8"
-      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:least-arm64v8"
+      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:{{ .Tag }}-arm64"
+      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:least-arm64"
     goarch: arm64
     dockerfile: Dockerfile
     build_flag_templates:
