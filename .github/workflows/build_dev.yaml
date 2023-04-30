@@ -28,6 +28,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: gztv
-          path:
-            - ./dist/*.tar.gz
-            - ./dist/*.zip
+          path: dist/*.{tar.gz,zip}
