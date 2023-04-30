@@ -1,7 +1,7 @@
 package data
 
 import (
-	"gorm.io/driver/sqlite"
+	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 	"sync"
 )
