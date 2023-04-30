@@ -16,6 +16,7 @@ builds:
     goarch:
       - amd64
       - arm64
+    binary: gztv
 
 archives:
   - format: tar.gz
@@ -34,8 +35,23 @@ archives:
       {{- if .Arm }}v{{ .Arm }}{{ end }}
     # use zip for windows archives
     format_overrides:
-    - goos: windows
-      format: zip
+      - goos: windows
+        format: zip
+
+dockers:
+  - image_templates:
+      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:{{ .Tag }}amd64"
+      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:least-amd64"
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/amd64"
+  - image_templates:
+      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:{{ .Tag }}arm64v8"
+      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:least-arm64v8"
+    goarch: arm64
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/arm64/v8"
 
 checksum:
   name_template: 'checksums.txt'
