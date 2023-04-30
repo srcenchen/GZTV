@@ -7,8 +7,8 @@ import (
 	"github.com/srcenchen/gztv/lalserver"
 	"github.com/srcenchen/gztv/public"
 	"github.com/srcenchen/gztv/server"
-	"os"
 	"io/ioutil"
+	"os"
 )
 
 func main() {
@@ -17,19 +17,19 @@ func main() {
 	go lalserver.StreamServer() // 启动流媒体服务器
 	fmt.Println("流媒体服务器已经启动。")
 	go WebUI() // 启动WebUI
-	fmt.Println("WebUI 和 后端端口已经启动，运行在8020端口。")
+	fmt.Println("WebUI 和 后端端口已经启动")
 	select {}
 }
 
 // WebUI /**
 func WebUI() {
 	// 禁止Gin的控制台输出
-        gin.SetMode(gin.ReleaseMode)
-        gin.DefaultWriter = ioutil.Discard
+	gin.SetMode(gin.ReleaseMode)
+	gin.DefaultWriter = ioutil.Discard
 	router := gin.Default()
 	server.Router(router) // 启动后端路由
 	public.InitIndex(router)
-	err := router.Run(":8020")
+	err := router.Run(":6020")
 	if err != nil {
 		return
 	}

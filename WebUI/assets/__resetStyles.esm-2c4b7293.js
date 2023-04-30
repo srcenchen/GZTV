@@ -1,0 +1,1 @@
+import{A as a,B as f}from"./index-229d3f21.js";function l(e,n,s){const r={};function i(t){const{dir:o,renderer:c}=t,u=o==="ltr",d=u?c.id:c.id+"r";return r[d]===void 0&&(c.insertCSSRules({r:s}),r[d]=!0),u?e:n||e}return i}function _(e,n,s){const r=l(e,n,s);return function(){const t=a(),o=f();return r({dir:t,renderer:o})}}export{_};

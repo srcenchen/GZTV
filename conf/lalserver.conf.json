@@ -17,7 +17,7 @@
     "add_dummy_audio_wait_audio_ms": 150
   },
   "default_http": {
-    "http_listen_addr": ":8021",
+    "http_listen_addr": ":6021",
     "https_listen_addr": ":4433",
     "https_cert_file": "./conf/cert.pem",
     "https_key_file": "./conf/key.pem"
@@ -79,7 +79,7 @@
   },
   "http_api": {
     "enable": true,
-    "addr": ":8022"
+    "addr": ":6022"
   },
   "server_id": "1",
   "http_notify": {

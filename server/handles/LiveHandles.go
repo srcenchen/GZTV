@@ -58,7 +58,7 @@ func GetLiveByID(c *gin.Context) {
 	// 历遍所有直播，如果直播已经结束，就将直播状态改为已结束
 	streamName := result.StreamName
 	// 通过API获取直播状态
-	resp, _ := http.Get("http://127.0.0.1:8022/api/stat/group?stream_name=" + streamName)
+	resp, _ := http.Get("http://127.0.0.1:6022/api/stat/group?stream_name=" + streamName)
 	jsonData, _ := io.ReadAll(resp.Body)
 	_ = resp.Body.Close()
 	resultCode := gjson.Get(string(jsonData), "error_code")

@@ -1,1 +1,0 @@
-import{r,e as o}from"./index-ab6327af.js";import{u,a as l,r as n}from"./useTextStyles-9017f7a8.js";const x=r.forwardRef((s,t)=>{const e=u(s,t);l(e);const{useTextStyles_unstable:a}=o();return a(e),n(e)});x.displayName="Text";export{x as T};
