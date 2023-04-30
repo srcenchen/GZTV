@@ -9,16 +9,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      -
-        name: Set up Go
+      - name: Set up Go
         uses: actions/setup-go@v3
-      -
-        name: Run GoReleaser
+      - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v4
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
@@ -27,9 +24,10 @@ jobs:
           args: release --snapshot --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      -       
-        name: Upload assets
+      - name: Upload assets
         uses: actions/upload-artifact@v3
         with:
           name: gztv
-          path: ./dist/*
+          path:
+            - ./dist/*.tar.gz
+            - ./dist/*.zip
