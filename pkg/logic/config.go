@@ -14,11 +14,11 @@ import (
 	"os"
 	"strings"
 
+	"github.com/q191201771/naza/pkg/nazajson"
+	"github.com/q191201771/naza/pkg/nazalog"
 	"github.com/srcenchen/gztv/pkg/base"
 	"github.com/srcenchen/gztv/pkg/hls"
 	"github.com/srcenchen/gztv/pkg/rtsp"
-	"github.com/q191201771/naza/pkg/nazajson"
-	"github.com/q191201771/naza/pkg/nazalog"
 )
 
 const (
@@ -244,7 +244,7 @@ func LoadConfAndInitLog(rawContent []byte) *Config {
 		_, _ = fmt.Fprintf(os.Stderr, "initial log failed. err=%+v\n", err)
 		base.OsExitAndWaitPressIfWindows(1)
 	}
-	Log.Info("initial log succ.")
+	//	Log.Info("initial log succ.")
 
 	// 打印Logo
 	Log.Info(`
