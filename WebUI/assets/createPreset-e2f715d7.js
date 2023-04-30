@@ -1,0 +1,1 @@
+import{r as n,m as u}from"./index-be8fe15c.js";import{u as p,a as N,r as f}from"./useTextStyles-014f634e.js";function y(t){const{useStyles:r,className:o,displayName:l}=t,e=n.forwardRef((a,c)=>{const m=r(),s=p(a,c);return N(s),s.root.className=u(o,s.root.className,m.root,a.className),f(s)});return e.displayName=l,e}export{y as c};
