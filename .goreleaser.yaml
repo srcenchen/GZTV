@@ -46,9 +46,8 @@ dockers:
     build_flag_templates:
       - "--platform=linux/amd64"
     extra_files:
-      - WebUI/*
-      - WebUI/**/*
-      - conf/*
+      - WebUI
+      - conf
   - image_templates:
       - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:{{ .Tag }}arm64v8"
       - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:least-arm64v8"
@@ -57,9 +56,8 @@ dockers:
     build_flag_templates:
       - "--platform=linux/arm64/v8"
     extra_files:
-      - WebUI/*
-      - WebUI/**/*
-      - conf/*
+      - WebUI
+      - conf
 
 checksum:
   name_template: 'checksums.txt'
