@@ -24,8 +24,11 @@ jobs:
           args: release --snapshot --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Delete folder cache
+        run: |
+          rm -rf dist/*/
       - name: Upload assets
         uses: actions/upload-artifact@v3
         with:
-          name: gztv
+          name: apps
           path: ./dist/*
