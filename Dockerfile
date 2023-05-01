@@ -1,10 +1,8 @@
 FROM alpine
-# 时区修正
-RUN apk --update add tzdata && \
-    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    echo "Asia/Shanghai" > /etc/timezone && \
-    apk del tzdata && \
-    rm -rf /var/cache/apk/*
+ENV TZ Asia/Shanghai
+RUN apk add alpine-conf && \
+    /sbin/setup-timezone -z Asia/Shanghai && \
+    apk del alpine-conf
 # 复制主文件
 COPY gztv /gztv/gztv
 # 复制WebUI文件夹
