@@ -20,7 +20,7 @@ func GetLives(c *gin.Context) {
 	for _, live := range result {
 		streamName := live.StreamName
 		// 通过API获取直播状态
-		resp, _ := http.Get("http://127.0.0.1:8022/api/stat/group?stream_name=" + streamName)
+		resp, _ := http.Get("http://127.0.0.1:6022/api/stat/group?stream_name=" + streamName)
 		jsonData, _ := io.ReadAll(resp.Body)
 		_ = resp.Body.Close()
 		resultCode := gjson.Get(string(jsonData), "error_code")
