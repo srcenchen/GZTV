@@ -1,8 +1,4 @@
 FROM alpine
-ENV TZ Asia/Shanghai
-RUN apk add alpine-conf && \
-    /sbin/setup-timezone -z Asia/Shanghai && \
-    apk del alpine-conf
 # 复制主文件
 COPY gztv /gztv/gztv
 # 复制WebUI文件夹
