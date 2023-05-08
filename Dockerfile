@@ -1,4 +1,8 @@
-FROM alpine
+FROM debian
+# 预先配置
+RUN apt update
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' > /etc/timezone
 # 复制主文件
 COPY gztv /gztv/gztv
 # 复制WebUI文件夹
