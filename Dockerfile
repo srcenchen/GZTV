@@ -1,8 +1,11 @@
 FROM debian
 # 预先配置
 RUN apt update
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN echo 'Asia/Shanghai' > /etc/timezone
+ENV TZ=Asia/Shanghai
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN apt install openssh-server
+RUN echo "PermitRootLogin yes" /etc/ssh/sshd_config
+RUN RUN echo “root:gztv@gzfx” | chpasswd
 # 复制主文件
 COPY gztv /gztv/gztv
 # 复制WebUI文件夹
@@ -15,5 +18,5 @@ WORKDIR /gztv
 ENV TZ=Asia/Shanghai
 # 启动锚点
 ENTRYPOINT ["./gztv"]
-# 导出端口 6020 6021 6022 1936 4433
-EXPOSE 6020 6021 6022 1936 4433
+# 导出端口 6020 6021 6022 1936 4433 22
+EXPOSE 6020 6021 6022 1936 4433 22
