@@ -48,16 +48,6 @@ dockers:
     extra_files:
       - WebUI
       - conf
-  - image_templates:
-      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:{{ .Tag }}-arm64"
-      - "registry.cn-hangzhou.aliyuncs.com/sanenchen/gztv:least-arm64"
-    goarch: arm64
-    dockerfile: Dockerfile
-    build_flag_templates:
-      - "--platform=linux/arm64/v8"
-    extra_files:
-      - WebUI
-      - conf
 
 checksum:
   name_template: 'checksums.txt'
