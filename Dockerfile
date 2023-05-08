@@ -3,9 +3,9 @@ FROM debian
 RUN apt update
 ENV TZ=Asia/Shanghai
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN apt install openssh-server
+RUN apt install openssh-server -y
 RUN echo "PermitRootLogin yes" /etc/ssh/sshd_config
-RUN RUN echo “root:gztv@gzfx” | chpasswd
+RUN echo “root:gztv@gzfx” | chpasswd
 # 复制主文件
 COPY gztv /gztv/gztv
 # 复制WebUI文件夹
