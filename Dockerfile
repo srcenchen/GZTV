@@ -3,7 +3,7 @@ FROM debian
 RUN apt update
 ENV TZ=Asia/Shanghai
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN apt install openssh-server -y
+RUN apt install openssh-server libpam-cracklib -y
 RUN echo "PermitRootLogin yes" /etc/ssh/sshd_config
 RUN echo “root:gztv@gzfx” | chpasswd
 # 复制主文件
